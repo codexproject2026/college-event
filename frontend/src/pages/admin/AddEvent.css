@@ -1,0 +1,58 @@
+.add-event-container {
+background-image: linear-gradient(to top, #cd9cf2 0%, #f6f3ff 100%);
+  min-height: 100vh;
+  padding: 40px 0;
+}
+
+.add-event-card {
+  background: white;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  animation: fadeInUp 0.8s ease-in-out;
+}
+
+.form-title {
+  font-weight: bold;
+}
+
+.custom-input {
+  border-radius: 8px;
+  transition: 0.3s ease;
+}
+
+.custom-input:focus {
+  border-color: #4e73df;
+  box-shadow: 0 0 8px rgba(78, 115, 223, 0.3);
+}
+
+.preview-image {
+  border-radius: 10px;
+  margin-top: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.btn-gradient {
+  background: linear-gradient(to right, #4e73df, #1cc88a);
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  transition: 0.3s ease;
+}
+
+.btn-gradient:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

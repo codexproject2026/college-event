@@ -1,0 +1,70 @@
+.view-container {
+  background-image: linear-gradient(to top, #fddb92 0%, #d1fdff 100%);
+  min-height: 100vh;
+  padding: 40px 0;
+}
+
+.view-card {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.view-title {
+  font-weight: bold;
+}
+
+.custom-table thead {
+  background: #4e73df;
+  color: white;
+}
+
+.custom-table tbody tr:hover {
+  background-color: #f2f6ff;
+  
+  transition: 0.2s ease;
+}
+
+.event-image {
+  width: 70px;
+  height: 50px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.btn-edit {
+  background: #ffc107 !important;
+  border: none;
+  color: black;
+  transition: 0.3s;
+}
+
+.btn-edit:hover {
+  background: #e0a800 !important;
+  transform: scale(1.05);
+}
+
+.btn-delete {
+  background: #dc3545 !important;
+  border: none;
+  color: white;
+  transition: 0.3s;
+}
+
+.btn-delete:hover {
+  background: #c82333;
+  transform: scale(1.05);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

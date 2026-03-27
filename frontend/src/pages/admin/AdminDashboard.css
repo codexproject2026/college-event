@@ -1,0 +1,57 @@
+.dashboard-container {
+  padding: 40px;
+  background-image: linear-gradient(to top, #a8edea 0%, #fed6e3 100%);
+  min-height: 90vh;
+}
+
+.dashboard-title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 2rem;
+  animation: fadeInDown 1s ease-in-out;
+}
+
+/* Card Design */
+.dashboard-card {
+  color: white;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  transition: 0.4s ease;
+  cursor: pointer;
+  animation: fadeInUp 1.2s ease-in-out;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Icon */
+.card-icon {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
