@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 27, 2026 at 03:09 AM
+-- Generation Time: Mar 27, 2026 at 04:29 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -86,8 +86,8 @@ CREATE TABLE `events` (
 --
 
 INSERT INTO `events` (`id`, `name`, `category`, `description`, `event_date`, `register_last_date`, `start_time`, `end_time`, `slot_count`, `available_slots`, `status`, `image`) VALUES
-(2, 'Dance event', 'Cultural', 'This is dance event', '2026-03-27', '2026-03-26', '07:18:00', '07:36:00', 10, 10, 'Open', '1771463371164.jpg'),
-(3, 'Technical Master Class', 'Technical', 'This is technical event', '2026-03-31', '2026-03-28', '09:00:00', '13:00:00', 20, 19, 'Completed', '1771607715637.jpg'),
+(2, 'Dance event', 'Cultural', 'This is dance event', '2026-03-27', '2026-03-26', '07:18:00', '07:36:00', 10, 10, 'Completed', '1771463371164.jpg'),
+(3, 'Technical Master Class', 'Technical', 'This is technical event', '2026-03-31', '2026-03-28', '09:00:00', '13:00:00', 20, 19, 'Open', '1771607715637.jpg'),
 (6, 'Cricket event', 'Sports', 'This is cricket event', '2026-03-31', '2026-03-28', '09:17:00', '21:17:00', 10, 10, 'Open', '1774453680024.jpg');
 
 -- --------------------------------------------------------

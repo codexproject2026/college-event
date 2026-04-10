@@ -188,3 +188,96 @@ exports.markAttendance = (req, res) => {
     }
   );
 };
+
+
+exports.chatbotData = (req, res) => {
+  const { student_id } = req.params;
+
+  // 🔥 Get Student's interest
+  db.query(
+    `SELECT interest_event FROM students WHERE id = ?`,
+    [student_id],
+    (err, studentResult) => {
+      if (err) {
+        console.log(err);
+        return res.status(500).json({ message: "Error fetching student" });
+      }
+
+      const interest = studentResult[0]?.interest_event || "Technical";
+
+      // 🔥 Get Registered Events (My Events) with full details
+      db.query(
+        `SELECT 
+          e.id,
+          e.name,
+          e.category,
+          DATE_FORMAT(e.event_date, '%d/%m/%Y') AS event_date,
+          e.start_time,
+          e.end_time
+         FROM registrations r
+         JOIN events e ON r.event_id = e.id
+         WHERE r.student_id = ?`,
+        [student_id],
+        (err, myEvents) => {
+          if (err) {
+            console.log(err);
+            return res.status(500).json({ message: "Error fetching my events" });
+          }
+
+          // 🔥 Get Attended Events with full details
+          db.query(
+            `SELECT 
+              e.id,
+              e.name,
+              e.category,
+              DATE_FORMAT(e.event_date, '%d/%m/%Y') AS event_date
+             FROM attendance a
+             JOIN events e ON a.event_id = e.id
+             WHERE a.student_id = ?`,
+            [student_id],
+            (err, attendance) => {
+              if (err) {
+                console.log(err);
+                return res.status(500).json({ message: "Error fetching attendance" });
+              }
+
+              // 🔥 Get Recommended Events based on interest (with full details)
+              db.query(
+                `SELECT 
+                  e.id,
+                  e.name,
+                  e.category,
+                  DATE_FORMAT(e.event_date, '%d/%m/%Y') AS event_date,
+                  e.start_time,
+                  e.end_time,
+                  e.available_slots,
+                  e.slot_count
+                 FROM events e
+                 WHERE e.category = ? 
+                   AND e.status = 'Open'
+                   AND e.event_date >= CURDATE()
+                   AND e.id NOT IN (
+                     SELECT event_id FROM registrations WHERE student_id = ?
+                   )
+                 LIMIT 5`,
+                [interest, student_id],
+                (err, recommended) => {
+                  if (err) {
+                    console.log(err);
+                    return res.status(500).json({ message: "Error fetching recommendations" });
+                  }
+
+                  res.json({
+                    myEvents: myEvents || [],
+                    attendance: attendance || [],
+                    recommended: recommended || []
+                  });
+                }
+              );
+            }
+          );
+        }
+      );
+    }
+  );
+};

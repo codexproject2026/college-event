@@ -1,6 +1,10 @@
 const db = require("../config/db");
 const transporter = require("../utils/mailer");
-
+const PDFDocument = require("pdfkit");
+const fs = require("fs");
+const path = require("path");
+const generateCertificate = require("../utils/certificate");
+const generateWinnerCertificate = require("../utils/winnerCertificate");
 
 // ================= ADMIN LOGIN =================
 exports.loginAdmin = (req, res) => {
@@ -329,6 +333,34 @@ exports.getAllEventCounts = (req, res) => {
         return res.status(500).json({ message: "Error" });
       }
 
+      const now = new Date();
+
+      // 🔥 AUTO UPDATE LOGIC
+      results.forEach((event) => {
+
+        if (!event.event_date || !event.end_time) return;
+
+        const eventEnd = new Date(event.event_date + " " + event.end_time);
+
+        // ✅ If time over & not already completed
+        if (now > eventEnd && event.status !== "Completed") {
+
+          db.query(
+            "UPDATE events SET status='Completed' WHERE id=?",
+            [event.id],
+            (err) => {
+              if (err) {
+                console.log("Update Error:", err);
+              }
+            }
+          );
+
+          // 🔥 instant UI reflect
+          event.status = "Completed";
+        }
+
+      });
+
       res.json(results);
     }
   );
@@ -349,6 +381,106 @@ exports.completeEvent = (req, res) => {
       }
 
       res.json({ message: "Event marked as Completed ✅" });
+    }
+  );
+};
+
+exports.sendCertificates = (req, res) => {
+  const { eventId } = req.params;
+
+  db.query(
+    `SELECT s.name, s.email, e.name AS event_name
+     FROM registrations r
+     JOIN students s ON r.student_id = s.id
+     JOIN events e ON r.event_id = e.id
+     LEFT JOIN attendance a 
+       ON a.student_id = s.id AND a.event_id = r.event_id
+     WHERE r.event_id = ? AND a.id IS NOT NULL`,
+    [eventId],
+    (err, students) => {
+
+      if (err) {
+        console.log("DB ERROR:", err);
+        return res.status(500).json({ message: "Error" });
+      }
+
+      if (students.length === 0) {
+        return res.json({ message: "No attended students ❌" });
+      }
+
+      students.forEach((student) => {
+
+        const fileName = `certificate_${student.name}.pdf`;
+        const filePath = `certificates/${fileName}`;
+
+        // 🔥 generate PDF
+        generateCertificate(student, filePath);
+
+        // 🔥 send email
+        const mailOptions = {
+          from: "yourgmail@gmail.com",
+          to: student.email,
+          subject: "🎓 Your Certificate",
+          text: `Hello ${student.name}, your certificate is attached.`,
+          attachments: [
+            {
+              filename: fileName,
+              path: filePath
+            }
+          ]
+        };
+
+        transporter.sendMail(mailOptions, (err) => {
+          if (err) {
+            console.log("MAIL ERROR:", err);
+          } else {
+            console.log("✅ Sent to:", student.email);
+          }
+        });
+      });
+
+      res.json({ message: "Certificates Sent ✅" });
+    }
+  );
+};
+
+exports.sendWinnerCertificate = (req, res) => {
+  const { student_id, event_id } = req.body;
+
+  db.query(
+    `SELECT s.name, s.email, e.name AS event_name
+     FROM students s, events e
+     WHERE s.id=? AND e.id=?`,
+    [student_id, event_id],
+    (err, result) => {
+
+      if (err || result.length === 0) {
+        return res.status(500).json({ message: "Error" });
+      }
+
+      const student = result[0];
+
+      const fileName = `winner_${student.name}.pdf`;
+      const filePath = `certificates/${fileName}`;
+
+      // 🏆 GENERATE WINNER CERTIFICATE
+      generateWinnerCertificate(student, filePath);
+
+      // 📧 SEND EMAIL
+      transporter.sendMail({
+        from: "yourgmail@gmail.com",
+        to: student.email,
+        subject: "🏆 Winner Certificate",
+        text: `Congratulations ${student.name}! You are the WINNER 🎉`,
+        attachments: [
+          {
+            filename: fileName,
+            path: filePath
+          }
+        ]
+      });
+
+      res.json({ message: "Winner certificate sent 🏆" });
     }
   );
 };

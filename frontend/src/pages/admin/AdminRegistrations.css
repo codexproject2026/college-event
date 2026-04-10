@@ -1,4 +1,4 @@
-/* ViewEvents.css - Premium Dark Theme Design */
+/* AdminRegistrations.css - Premium Dark Theme */
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 @import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css');
@@ -20,7 +20,7 @@
   box-sizing: border-box;
 }
 
-.view-events-page {
+.registrations-page {
   min-height: 100vh;
   width: 100%;
   position: relative;
@@ -30,7 +30,7 @@
 }
 
 /* ===== ANIMATED BACKGROUND ===== */
-.events-background {
+.registrations-background {
   position: fixed;
   top: 0;
   left: 0;
@@ -137,14 +137,14 @@
 }
 
 /* ===== MAIN CONTAINER ===== */
-.view-container {
+.registrations-container {
   position: relative;
   z-index: 10;
   padding: 100px 2rem 2rem;
   min-height: 100vh;
 }
 
-.view-card {
+.registrations-card {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -166,7 +166,7 @@
 }
 
 /* ===== HEADER SECTION ===== */
-.view-header {
+.registrations-header {
   text-align: center;
   margin-bottom: 40px;
 }
@@ -178,7 +178,7 @@
   animation: float 3s ease-in-out infinite;
 }
 
-.events-icon svg {
+.header-icon svg {
   width: 100%;
   height: 100%;
   filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.5));
@@ -189,8 +189,8 @@
   50% { transform: translateY(-10px); }
 }
 
-.view-title {
-  font-size: 2.2rem;
+.registrations-title {
+  font-size: 2rem;
   font-weight: 700;
   background: var(--gradient);
   -webkit-background-clip: text;
@@ -199,9 +199,62 @@
   margin-bottom: 10px;
 }
 
-.view-subtitle {
+.registrations-subtitle {
   color: rgba(255, 255, 255, 0.7);
   font-size: 1rem;
+}
+
+/* ===== STATS GRID ===== */
+.stats-grid {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.stat-card {
+  flex: 1;
+  min-width: 200px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: var(--transition);
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  background: rgba(102, 126, 234, 0.1);
+  border-color: rgba(102, 126, 234, 0.3);
+}
+
+.stat-icon {
+  width: 50px;
+  height: 50px;
+  background: rgba(102, 126, 234, 0.2);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  color: var(--primary);
+}
+
+.stat-info h3 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+}
+
+.stat-info p {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
+  margin: 0;
 }
 
 /* ===== TABLE STYLES ===== */
@@ -210,17 +263,17 @@
   border-radius: 20px;
 }
 
-.custom-table {
+.registrations-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 800px;
+  min-width: 900px;
 }
 
-.custom-table thead {
+.registrations-table thead {
   background: rgba(102, 126, 234, 0.15);
 }
 
-.custom-table th {
+.registrations-table th {
   padding: 16px 12px;
   text-align: center;
   font-weight: 600;
@@ -231,7 +284,7 @@
   border-bottom: 2px solid rgba(102, 126, 234, 0.3);
 }
 
-.custom-table td {
+.registrations-table td {
   padding: 16px 12px;
   text-align: center;
   color: rgba(255, 255, 255, 0.8);
@@ -240,11 +293,11 @@
   vertical-align: middle;
 }
 
-.custom-table tbody tr {
+.registrations-table tbody tr {
   transition: var(--transition);
 }
 
-.custom-table tbody tr:hover {
+.registrations-table tbody tr:hover {
   background: rgba(102, 126, 234, 0.08);
 }
 
@@ -252,7 +305,6 @@
 .serial-no {
   font-weight: 700;
   color: var(--primary);
-  text-align: center;
 }
 
 /* Event Name */
@@ -262,39 +314,16 @@
   text-align: left;
 }
 
-/* Event Image Column */
-.custom-table td:nth-child(2) {
-  text-align: center;
-}
-
-.event-images {
-  width: 90px !important;
-  height: 90px !important;
-  border-radius: 12px;
-  object-fit: cover;
-  border: 2px solid rgba(102, 126, 234, 0.3);
-  transition: var(--transition);
-  display: inline-block;
-}
-
-.event-image:hover {
-  transform: scale(1.1);
-  border-color: var(--primary);
-}
-
-/* Category Badges - FIXED ALIGNMENT */
+/* Category Badges */
 .category-badges {
   display: inline-block;
   padding: 6px 16px;
   border-radius: 20px;
   font-size: 0.85rem;
   font-weight: 600;
-  text-align: center;
   white-space: nowrap;
-  min-width: 100px;
 }
 
-/* Category Colors */
 .category-technical {
   background: rgba(59, 130, 246, 0.2);
   color: #60a5fa;
@@ -325,107 +354,127 @@
   border: 1px solid rgba(168, 85, 247, 0.3);
 }
 
-/* Event Date & Last Date */
-.custom-table td:nth-child(5),
-.custom-table td:nth-child(6) {
-  font-family: monospace;
-  font-size: 0.85rem;
-  white-space: nowrap;
-}
-
-/* Event Time */
-.event-time {
-  font-family: monospace;
-  font-size: 0.8rem;
-  white-space: nowrap;
-}
-
-/* Slot Progress Bar */
-.slot-progress {
-  position: relative;
-  width: 100px;
-  height: 32px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  overflow: hidden;
-  margin: 0 auto;
-}
-
-.slot-progress-bar {
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  background: linear-gradient(90deg, #10b981, #34d399);
-  border-radius: 16px;
-  transition: width 0.5s ease;
-}
-
-.slot-text {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  font-size: 0.75rem;
+/* Registered & Slots Badges */
+.registered-badge {
+  display: inline-block;
+  padding: 5px 12px;
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+  border-radius: 20px;
   font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.slots-badge {
+  display: inline-block;
+  padding: 5px 12px;
+  background: rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* View Button */
+.btn-view {
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-}
-
-/* Action Buttons */
-.action-buttons {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-  align-items: center;
-}
-
-.btn-action {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
   border: none;
+  border-radius: 10px;
   cursor: pointer;
+  font-weight: 500;
+  font-size: 0.85rem;
   transition: var(--transition);
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  font-size: 1rem;
+  gap: 5px;
 }
 
-.btn-edit {
+.btn-view:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+/* Status Badges */
+.status-badge {
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 500;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: var(--transition);
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.status-badge.completed {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.status-badge.pending {
   background: rgba(245, 158, 11, 0.2);
   color: #fbbf24;
   border: 1px solid rgba(245, 158, 11, 0.3);
 }
 
-.btn-edit:hover {
+.status-badge.pending:hover {
   background: #f59e0b;
   color: white;
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(245, 158, 11, 0.3);
 }
 
-.btn-delete {
-  background: rgba(239, 68, 68, 0.2);
-  color: #f87171;
-  border: 1px solid rgba(239, 68, 68, 0.3);
+.status-badge.ongoing {
+  background: rgba(107, 114, 128, 0.2);
+  color: #9ca3af;
+  border: 1px solid rgba(107, 114, 128, 0.3);
+  cursor: not-allowed;
 }
 
-.btn-delete:hover {
-  background: #ef4444;
+/* Certificate Button */
+.certificate-btn {
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #8b5cf6 0%, #667eea 100%);
   color: white;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(239, 68, 68, 0.3);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.85rem;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
 }
 
-/* No Data State */
-.no-data {
+.certificate-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4);
+}
+
+.certificate-btn.disabled {
+  background: rgba(107, 114, 128, 0.3);
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.certificate-btn.disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Loading & No Data States */
+.loading-state,
+.no-data-state {
   text-align: center;
   padding: 60px !important;
 }
 
+.loading-content,
 .no-data-content {
   display: flex;
   flex-direction: column;
@@ -433,64 +482,47 @@
   gap: 15px;
 }
 
+.loading-content i,
 .no-data-content i {
-  font-size: 4rem;
+  font-size: 3rem;
   color: rgba(255, 255, 255, 0.3);
 }
 
+.loading-content p,
 .no-data-content p {
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: rgba(255, 255, 255, 0.6);
-}
-
-.btn-create-event {
-  margin-top: 10px;
-  padding: 12px 24px;
-  background: var(--gradient);
-  border: none;
-  border-radius: 50px;
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
-  display: inline-flex;
-  align-items: center;
-}
-
-.btn-create-event:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 1024px) {
-  .view-container {
+  .registrations-container {
     padding: 80px 1.5rem 1.5rem;
   }
 
-  .view-card {
+  .registrations-card {
     padding: 30px;
   }
 
-  .view-title {
+  .registrations-title {
     font-size: 1.8rem;
   }
 }
 
 @media (max-width: 768px) {
-  .view-container {
+  .registrations-container {
     padding: 70px 1rem 1rem;
   }
 
-  .view-card {
+  .registrations-card {
     padding: 20px;
   }
 
-  .view-title {
+  .registrations-title {
     font-size: 1.5rem;
   }
 
-  .view-subtitle {
+  .registrations-subtitle {
     font-size: 0.85rem;
   }
 
@@ -499,81 +531,63 @@
     height: 55px;
   }
 
-  .custom-table th,
-  .custom-table td {
+  .stats-grid {
+    flex-direction: column;
+  }
+
+  .stat-card {
+    min-width: auto;
+  }
+
+  .registrations-table th,
+  .registrations-table td {
     padding: 12px 8px;
     font-size: 0.8rem;
   }
 
-  .event-image {
-    width: 40px;
-    height: 40px;
-  }
-
-  .category-badge {
-    padding: 4px 12px;
+  .btn-view,
+  .status-badge,
+  .certificate-btn {
+    padding: 6px 12px;
     font-size: 0.75rem;
-    min-width: 80px;
-  }
-
-  .action-buttons {
-    gap: 5px;
-  }
-
-  .btn-action {
-    width: 30px;
-    height: 30px;
-    font-size: 0.85rem;
-  }
-
-  .slot-progress {
-    width: 80px;
-    height: 28px;
-  }
-
-  .slot-text {
-    font-size: 0.7rem;
   }
 }
 
 @media (max-width: 480px) {
-  .view-container {
+  .registrations-container {
     padding: 60px 0.8rem 0.8rem;
   }
 
-  .view-card {
+  .registrations-card {
     padding: 15px;
   }
 
-  .view-title {
+  .registrations-title {
     font-size: 1.3rem;
   }
 
-  .custom-table th,
-  .custom-table td {
+  .registrations-table th,
+  .registrations-table td {
     padding: 8px 6px;
     font-size: 0.7rem;
   }
 
   .category-badge {
+    padding: 4px 10px;
+    font-size: 0.7rem;
+  }
+
+  .registered-badge,
+  .slots-badge {
     padding: 3px 8px;
+    font-size: 0.7rem;
+  }
+
+  .btn-view,
+  .status-badge,
+  .certificate-btn {
+    padding: 4px 8px;
     font-size: 0.65rem;
-    min-width: 70px;
-  }
-
-  .slot-progress {
-    width: 65px;
-    height: 24px;
-  }
-
-  .slot-text {
-    font-size: 0.6rem;
-  }
-
-  .btn-action {
-    width: 26px;
-    height: 26px;
-    font-size: 0.75rem;
   }
 }
 
@@ -595,20 +609,4 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(135deg, #764ba2 0%, #8b5cf6 100%);
-}
-
-/* Loading Animation */
-@keyframes shimmer {
-  0% {
-    background-position: -1000px 0;
-  }
-  100% {
-    background-position: 1000px 0;
-  }
-}
-
-.loading-row {
-  background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
-  background-size: 1000px 100%;
-  animation: shimmer 2s infinite;
 }

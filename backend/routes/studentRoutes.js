@@ -12,4 +12,6 @@ router.get("/my-events/:student_id", studentController.getMyEvents);
 router.post("/attendance", studentController.markAttendance);
 router.get("/my-events/:student_id", studentController.getMyEvents);
 
+router.get("/chatbot/:student_id", studentController.chatbotData);
+
 module.exports = router;

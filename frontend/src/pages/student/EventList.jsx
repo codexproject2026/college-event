@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import StudentNavbar from "../../components/StudentNavbar";
 import "./EventList.css";
+import Chatbot from "../../components/Chatbot";
 
 function EventList() {
   const [events, setEvents] = useState([]);
@@ -168,6 +169,8 @@ function EventList() {
 
         </div>
       </div>
+
+      <Chatbot />
     </>
   );
 }

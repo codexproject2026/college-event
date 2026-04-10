@@ -1,0 +1,622 @@
+/* MyEvents.css - Premium Student Theme */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css');
+
+:root {
+  --student-primary: #4CAF50;
+  --student-secondary: #45a049;
+  --student-accent: #81C784;
+  --student-dark: #1a1a2e;
+  --student-light: #ffffff;
+  --gradient: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  --gradient-hover: linear-gradient(135deg, #45a049 0%, #4CAF50 100%);
+  --gradient-blue: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+  --gradient-orange: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+  --shadow-sm: 0 4px 15px rgba(76, 175, 80, 0.2);
+  --shadow-md: 0 10px 30px rgba(76, 175, 80, 0.3);
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.myevents-page {
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #0f0c1f 0%, #1a1a2e 100%);
+  overflow-x: hidden;
+}
+
+/* ===== ANIMATED BACKGROUND ===== */
+.myevents-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.gradient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  animation: orb-float 20s ease-in-out infinite;
+}
+
+.orb-1 {
+  top: -100px;
+  right: -100px;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(76, 175, 80, 0.4) 0%, rgba(76, 175, 80, 0) 70%);
+}
+
+.orb-2 {
+  bottom: -100px;
+  left: -100px;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(129, 199, 132, 0.3) 0%, rgba(129, 199, 132, 0) 70%);
+  animation-delay: -5s;
+}
+
+.orb-3 {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, rgba(76, 175, 80, 0.2) 0%, rgba(76, 175, 80, 0) 70%);
+  animation: orb-pulse 15s ease-in-out infinite;
+}
+
+@keyframes orb-float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(50px, 50px) scale(1.1); }
+}
+
+@keyframes orb-pulse {
+  0%, 100% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 0.6; transform: translate(-50%, -50%) scale(1.2); }
+}
+
+.grid-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: grid-move 20s linear infinite;
+}
+
+@keyframes grid-move {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(50px, 50px); }
+}
+
+/* ===== FLOATING PARTICLES ===== */
+.floating-particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.floating-particles .particle {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  animation: particle-float linear infinite;
+}
+
+@keyframes particle-float {
+  0% {
+    transform: translateY(100vh) translateX(0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100vh) translateX(100px) scale(0.5);
+    opacity: 0;
+  }
+}
+
+/* ===== MAIN CONTAINER ===== */
+.myevents-container {
+  position: relative;
+  z-index: 10;
+  padding: 100px 2rem 2rem;
+  min-height: 100vh;
+}
+
+.myevents-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  padding: 40px;
+  animation: slideInUp 0.6s ease;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== HEADER SECTION ===== */
+.myevents-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.header-icon {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 20px;
+  animation: float 3s ease-in-out infinite;
+}
+
+.header-icon svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 20px rgba(76, 175, 80, 0.5));
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.myevents-title {
+  font-size: 2rem;
+  font-weight: 700;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 10px;
+}
+
+.myevents-subtitle {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1rem;
+}
+
+/* ===== STATS GRID ===== */
+.stats-grid {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.stat-card {
+  flex: 1;
+  min-width: 180px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: var(--transition);
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  background: rgba(76, 175, 80, 0.1);
+  border-color: rgba(76, 175, 80, 0.3);
+}
+
+.stat-icon {
+  width: 50px;
+  height: 50px;
+  background: rgba(76, 175, 80, 0.2);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: var(--student-primary);
+}
+
+.stat-info h3 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+}
+
+.stat-info p {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+/* ===== LOADING STATE ===== */
+.loading-state {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 3px solid rgba(76, 175, 80, 0.2);
+  border-top-color: var(--student-primary);
+  border-radius: 50%;
+  margin: 0 auto 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-state p {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1rem;
+}
+
+/* ===== EVENTS GRID ===== */
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 30px;
+}
+
+/* Event Card */
+.event-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  overflow: hidden;
+  transition: var(--transition);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.event-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(76, 175, 80, 0.3);
+  box-shadow: var(--shadow-md);
+}
+
+/* Event Image */
+.event-image-wrapper {
+  position: relative;
+  overflow: hidden;
+  height: 220px;
+  flex-shrink: 0;
+}
+
+.event-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.event-card:hover .event-image {
+  transform: scale(1.1);
+}
+
+/* Attendance Status Badge */
+.attendance-status {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  z-index: 1;
+}
+
+.attendance-status.marked {
+  background: rgba(76, 175, 80, 0.9);
+  color: white;
+}
+
+.attendance-status.pending {
+  background: rgba(255, 152, 0, 0.9);
+  color: white;
+}
+
+/* Event Content */
+.event-content {
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.event-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.event-description {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.5;
+  margin-bottom: 15px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Event Details */
+.event-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+  padding: 12px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.detail-item i {
+  width: 20px;
+  color: var(--student-primary);
+  font-size: 1rem;
+}
+
+/* Attendance Buttons */
+.attendance-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+  margin-top: auto;
+}
+
+.attendance-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.attendance-btn:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.attendance-btn.marked {
+  background: var(--gradient);
+  color: white;
+  cursor: default;
+  opacity: 0.7;
+}
+
+.attendance-btn.available {
+  background: var(--gradient-blue);
+  color: white;
+}
+
+.attendance-btn.available:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(33, 150, 243, 0.4);
+}
+
+.attendance-btn.closed {
+  background: rgba(107, 114, 128, 0.5);
+  color: rgba(255, 255, 255, 0.7);
+  cursor: not-allowed;
+}
+
+.attendance-btn.closed:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.attendance-btn.closed:hover::before {
+  width: 0;
+  height: 0;
+}
+
+/* No Events State */
+.no-events {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.no-events i {
+  font-size: 5rem;
+  color: rgba(255, 255, 255, 0.2);
+  margin-bottom: 20px;
+}
+
+.no-events h3 {
+  font-size: 1.5rem;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.no-events p {
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 30px;
+}
+
+.browse-events-btn {
+  padding: 12px 30px;
+  background: var(--gradient);
+  border: none;
+  border-radius: 50px;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+}
+
+.browse-events-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 1024px) {
+  .myevents-container {
+    padding: 80px 1.5rem 1.5rem;
+  }
+
+  .myevents-card {
+    padding: 30px;
+  }
+
+  .events-grid {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 25px;
+  }
+}
+
+@media (max-width: 768px) {
+  .myevents-container {
+    padding: 70px 1rem 1rem;
+  }
+
+  .myevents-card {
+    padding: 20px;
+  }
+
+  .myevents-title {
+    font-size: 1.5rem;
+  }
+
+  .myevents-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .header-icon {
+    width: 55px;
+    height: 55px;
+  }
+
+  .stats-grid {
+    flex-direction: column;
+  }
+
+  .stat-card {
+    min-width: auto;
+  }
+
+  .events-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .event-image-wrapper {
+    height: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .myevents-container {
+    padding: 60px 0.8rem 0.8rem;
+  }
+
+  .myevents-card {
+    padding: 15px;
+  }
+
+  .myevents-title {
+    font-size: 1.3rem;
+  }
+
+  .event-title {
+    font-size: 1.1rem;
+  }
+
+  .event-description {
+    font-size: 0.8rem;
+  }
+
+  .detail-item {
+    font-size: 0.75rem;
+  }
+
+  .attendance-btn {
+    padding: 10px;
+    font-size: 0.85rem;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #45a049 0%, #4CAF50 100%);
+}

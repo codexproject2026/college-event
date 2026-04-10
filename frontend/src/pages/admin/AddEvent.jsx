@@ -21,6 +21,24 @@ function AddEvent() {
   });
 
   const [message, setMessage] = useState("");
+  const [imagePreview, setImagePreview] = useState("");
+
+  // Create particles
+  useEffect(() => {
+    const particleContainer = document.createElement('div');
+    particleContainer.className = 'particle-bg';
+    document.querySelector('.add-event-container').appendChild(particleContainer);
+    
+    for (let i = 0; i < 30; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      particle.style.left = `${Math.random() * 100}%`;
+      particle.style.top = `${Math.random() * 100}%`;
+      particle.style.animationDelay = `${Math.random() * 5}s`;
+      particle.style.animationDuration = `${8 + Math.random() * 15}s`;
+      particleContainer.appendChild(particle);
+    }
+  }, []);
 
   // ================= LOAD EVENT FOR EDIT =================
   useEffect(() => {
@@ -29,7 +47,6 @@ function AddEvent() {
         .get(`http://localhost:5000/api/admin/event/${id}`)
         .then((res) => {
           const event = res.data;
-
           setFormData({
             name: event.name || "",
             category: event.category || "",
@@ -53,22 +70,24 @@ function AddEvent() {
     const { name, value, files } = e.target;
 
     if (name === "image") {
-      setFormData({
-        ...formData,
-        image: files[0]
-      });
+      const file = files[0];
+      setFormData({ ...formData, image: file });
+      
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => setImagePreview(reader.result);
+        reader.readAsDataURL(file);
+      } else {
+        setImagePreview("");
+      }
     } else {
-      setFormData({
-        ...formData,
-        [name]: value
-      });
+      setFormData({ ...formData, [name]: value });
     }
   };
 
   // ================= HANDLE SUBMIT =================
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const data = new FormData();
 
     data.append("name", formData.name);
@@ -80,30 +99,23 @@ function AddEvent() {
     data.append("end_time", formData.end_time);
     data.append("slot_count", formData.slot_count);
 
-    // only append image if new file selected
     if (formData.image && typeof formData.image !== "string") {
       data.append("image", formData.image);
     }
 
     try {
       if (id) {
-        await axios.put(
-          `http://localhost:5000/api/admin/update-event/${id}`,
-          data,
-          { headers: { "Content-Type": "multipart/form-data" } }
-        );
+        await axios.put(`http://localhost:5000/api/admin/update-event/${id}`, data, {
+          headers: { "Content-Type": "multipart/form-data" }
+        });
         setMessage("Event Updated Successfully ✅");
       } else {
-        await axios.post(
-          "http://localhost:5000/api/admin/add-event",
-          data,
-          { headers: { "Content-Type": "multipart/form-data" } }
-        );
+        await axios.post("http://localhost:5000/api/admin/add-event", data, {
+          headers: { "Content-Type": "multipart/form-data" }
+        });
         setMessage("Event Added Successfully ✅");
       }
-
       setTimeout(() => navigate("/view-events"), 1000);
-
     } catch (error) {
       console.log(error);
       setMessage(error.response?.data?.message || "Error ❌");
@@ -113,42 +125,54 @@ function AddEvent() {
   return (
     <>
       <AdminNavbar />
-
       <div className="add-event-container">
+        {/* Gradient Orbs */}
+        <div className="gradient-orb orb-1"></div>
+        <div className="gradient-orb orb-2"></div>
+        
         <div className="container">
           <div className="add-event-card">
-
-            <h2 className="text-center mb-4 form-title">
-              {id ? "Edit Event" : "Add New Event"}
-            </h2>
+            
+            <div className="form-header">
+              <div className="header-icon">
+                <i className="bi bi-calendar-plus-fill"></i>
+              </div>
+              <h2 className="form-title">{id ? "Edit Event" : "Create Event"}</h2>
+              <p className="form-subtitle">
+                {id ? "Update your event details" : "Fill in the details to create a new event"}
+              </p>
+            </div>
 
             {message && (
-              <div className="alert alert-info text-center">
+              <div className={`alert-message ${message.includes("✅") ? "success" : "error"}`}>
+                <i className={`bi ${message.includes("✅") ? "bi-check-circle-fill" : "bi-exclamation-triangle-fill"} me-2`}></i>
                 {message}
               </div>
             )}
 
             <form onSubmit={handleSubmit}>
-              <div className="row">
-
-                {/* Event Name */}
-                <div className="col-md-6 mb-3">
-                  <label className="form-label">Event Name</label>
+              <div className="form-grid">
+                <div className="form-group">
+                  <label className="form-label">
+                    <i className="bi bi-tag-fill"></i>Event Name
+                  </label>
                   <input
                     type="text"
-                    className="form-control custom-input"
+                    className="custom-input"
                     name="name"
+                    placeholder="Enter event name"
                     value={formData.name}
                     onChange={handleChange}
                     required
                   />
                 </div>
 
-                {/* Category */}
-                <div className="col-md-6 mb-3">
-                  <label className="form-label">Category</label>
+                <div className="form-group">
+                  <label className="form-label">
+                    <i className="bi bi-grid-fill"></i>Category
+                  </label>
                   <select
-                    className="form-control custom-input"
+                    className="custom-input"
                     name="category"
                     value={formData.category}
                     onChange={handleChange}
@@ -163,25 +187,28 @@ function AddEvent() {
                   </select>
                 </div>
 
-                {/* Description */}
-                <div className="col-12 mb-3">
-                  <label className="form-label">Description</label>
+                <div className="form-group full-width">
+                  <label className="form-label">
+                    <i className="bi bi-file-text-fill"></i>Description
+                  </label>
                   <textarea
-                    className="form-control custom-input"
+                    className="custom-input textarea-input"
                     name="description"
                     rows="3"
+                    placeholder="Describe your event..."
                     value={formData.description}
                     onChange={handleChange}
                     required
                   />
                 </div>
 
-                {/* Event Date */}
-                <div className="col-md-6 mb-3">
-                  <label className="form-label">Event Date</label>
+                <div className="form-group">
+                  <label className="form-label">
+                    <i className="bi bi-calendar-event-fill"></i>Event Date
+                  </label>
                   <input
                     type="date"
-                    className="form-control custom-input"
+                    className="custom-input"
                     name="event_date"
                     value={formData.event_date}
                     onChange={handleChange}
@@ -189,12 +216,13 @@ function AddEvent() {
                   />
                 </div>
 
-                {/* Register Last Date */}
-                <div className="col-md-6 mb-3">
-                  <label className="form-label">Register Last Date</label>
+                <div className="form-group">
+                  <label className="form-label">
+                    <i className="bi bi-calendar-check-fill"></i>Last Date
+                  </label>
                   <input
                     type="date"
-                    className="form-control custom-input"
+                    className="custom-input"
                     name="register_last_date"
                     value={formData.register_last_date}
                     onChange={handleChange}
@@ -202,12 +230,13 @@ function AddEvent() {
                   />
                 </div>
 
-                {/* Start Time */}
-                <div className="col-md-4 mb-3">
-                  <label className="form-label">Start Time</label>
+                <div className="form-group">
+                  <label className="form-label">
+                    <i className="bi bi-clock-fill"></i>Start Time
+                  </label>
                   <input
                     type="time"
-                    className="form-control custom-input"
+                    className="custom-input"
                     name="start_time"
                     value={formData.start_time}
                     onChange={handleChange}
@@ -215,12 +244,13 @@ function AddEvent() {
                   />
                 </div>
 
-                {/* End Time */}
-                <div className="col-md-4 mb-3">
-                  <label className="form-label">End Time</label>
+                <div className="form-group">
+                  <label className="form-label">
+                    <i className="bi bi-clock-fill"></i>End Time
+                  </label>
                   <input
                     type="time"
-                    className="form-control custom-input"
+                    className="custom-input"
                     name="end_time"
                     value={formData.end_time}
                     onChange={handleChange}
@@ -228,48 +258,64 @@ function AddEvent() {
                   />
                 </div>
 
-                {/* Slot Count */}
-                <div className="col-md-4 mb-3">
-                  <label className="form-label">Slot Count</label>
+                <div className="form-group">
+                  <label className="form-label">
+                    <i className="bi bi-people-fill"></i>Slots
+                  </label>
                   <input
                     type="number"
-                    className="form-control custom-input"
+                    className="custom-input"
                     name="slot_count"
+                    placeholder="Max participants"
                     value={formData.slot_count}
                     onChange={handleChange}
                     required
                   />
                 </div>
 
-                {/* Image Upload */}
-                <div className="col-12 mb-3">
-                  <label className="form-label">Event Image</label>
-                  <input
-                    type="file"
-                    className="form-control custom-input"
-                    name="image"
-                    onChange={handleChange}
-                  />
+                <div className="form-group full-width">
+                  <label className="form-label">
+                    <i className="bi bi-image-fill"></i>Event Image
+                  </label>
+                  <div className="image-upload-area">
+                    <input
+                      type="file"
+                      className="image-input"
+                      name="image"
+                      id="imageUpload"
+                      onChange={handleChange}
+                      accept="image/*"
+                    />
+                    <label htmlFor="imageUpload" className="image-upload-label">
+                      <i className="bi bi-cloud-upload-fill"></i>
+                      <span>Click to upload image</span>
+                    </label>
+                  </div>
                 </div>
 
-                {/* Existing Image */}
-                {id && formData.image && typeof formData.image === "string" && (
-                  <div className="col-12 mb-3 text-center">
-                    <img
-                      src={`http://localhost:5000/uploads/${formData.image}`}
-                      alt="event"
-                      width="150"
-                      className="preview-image"
-                    />
+                {(imagePreview || (id && formData.image && typeof formData.image === "string")) && (
+                  <div className="form-group full-width">
+                    <div className="image-preview-wrapper">
+                      <img
+                        src={imagePreview || `http://localhost:5000/uploads/${formData.image}`}
+                        alt="preview"
+                        className="preview-image"
+                      />
+                    </div>
                   </div>
                 )}
-
               </div>
 
-              <button className="btn btn-gradient w-100 mt-3">
-                {id ? "Update Event" : "Create Event"}
-              </button>
-
+              <div className="form-actions">
+                <button type="button" className="btn-cancel" onClick={() => navigate("/view-events")}>
+                  <i className="bi bi-x-circle"></i>
+                  Cancel
+                </button>
+                <button type="submit" className="btn-submit">
+                  <i className={`bi ${id ? "bi-pencil-square" : "bi-plus-circle"}`}></i>
+                  {id ? "Update Event" : "Create Event"}
+                </button>
+              </div>
             </form>
           </div>
         </div>
