@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import StudentNavbar from "../../components/StudentNavbar";
 import "./MyEvent.css";
+import Chatbot from "../../components/Chatbot";
 
 function MyEvents() {
   const [events, setEvents] = useState([]);
@@ -241,6 +242,7 @@ function MyEvents() {
           </div>
         </div>
       </div>
+       <Chatbot />
     </>
   );
 }
