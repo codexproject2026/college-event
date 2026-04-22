@@ -14,291 +14,393 @@ function generateCertificate(student, filePath) {
   const pageWidth = 842;
   const pageHeight = 595;
 
-  // ========== BACKGROUND WITH GRADIENT EFFECT ==========
+  // ========== CONFIGURATION ==========
+  const config = {
+    primaryColor: "#d4af37",      // Gold color
+    secondaryColor: "#1a237e",    // Navy blue for text
+    textColor: "#333333",         // Dark gray for text
+    subTextColor: "#666666",      // Light gray
+    
+    // Certificate Type
+    certificateType: "PARTICIPATION",
+    mainTitle: "CERTIFICATE",
+    
+    // Footer Text
+    footerText: "This is a system generated certificate",
+    
+    // Show/Hide Sections
+    showLogo: true,
+    showDate: true,
+    showCertificateId: true,
+    showSignature: true,
+    
+    // ========== NEW CONTROLS ==========
+    // Logo Controls
+    logoWidth: 400,               // Control logo width (default: 380)
+    logoHeight: 130,             // Set specific height (null = auto maintain aspect ratio)
+    logoXOffset: 0,               // Adjust horizontal position (positive = right, negative = left)
+    logoYOffset: 10,               // Adjust vertical position (positive = down, negative = up)
+    
+    // Paragraph Controls
+    paragraphFontSize: 18,        // Font size for paragraph (default: 16)
+    paragraphLetterSpacing: 0.8,  // Letter spacing in points (0 = normal, 1 = more space, -0.5 = tighter)
+    paragraphLineHeight: 35,      // Line height for paragraph (default: 28)
+    paragraphMaxWidth: 700,       // Maximum width of paragraph (default: 600)
+    paragraphAlign: "justify",     // Text alignment: "center", "left", "right", "justify"
+    
+    // Text Styling
+    useBoldForName: true,         // Make student name bold in paragraph
+    highlightEventName: true,     // Highlight event name in gold color
+    eventNameColor: "#d4af37"     // Color for highlighted event name
+  };
+
+  // ========== WHITE BACKGROUND ==========
+  doc.rect(0, 0, pageWidth, pageHeight).fill("#ffffff");
   
-  // Main background
-  doc.rect(0, 0, pageWidth, pageHeight).fill("#0a0a2a");
-  
-  // Decorative gradient orbs
-  doc.circle(200, 150, 150)
-    .fill("rgba(100, 100, 255, 0.05)");
-  doc.circle(600, 400, 180)
-    .fill("rgba(255, 215, 0, 0.03)");
-  doc.circle(700, 100, 120)
-    .fill("rgba(100, 100, 255, 0.04)");
-  
-  // Golden border
+  // Subtle decorative pattern (very light)
+  for(let i = 0; i < 30; i++) {
+    doc.opacity(0.02)
+      .circle(Math.random() * pageWidth, Math.random() * pageHeight, 40)
+      .fill(config.primaryColor);
+  }
+  doc.opacity(1);
+
+  // ========== GOLD BORDERS ==========
+  // Outer border
   doc.rect(15, 15, pageWidth - 30, pageHeight - 30)
     .lineWidth(3)
-    .strokeColor("#ffd700")
+    .strokeColor(config.primaryColor)
     .stroke();
   
-  doc.rect(20, 20, pageWidth - 40, pageHeight - 40)
-    .lineWidth(1)
-    .strokeColor("#ffd700")
+  // Inner border
+  doc.rect(22, 22, pageWidth - 44, pageHeight - 44)
+    .lineWidth(1.5)
+    .strokeColor(config.primaryColor)
+    .stroke();
+  
+  // Double line border
+  doc.rect(28, 28, pageWidth - 56, pageHeight - 56)
+    .lineWidth(0.5)
+    .strokeColor(config.primaryColor)
     .stroke();
 
-  // ========== TOP DECORATIVE BORDER ==========
-  doc.rect(40, 40, pageWidth - 80, 8)
-    .fill("#ffd700");
-  doc.rect(40, 55, pageWidth - 80, 2)
-    .fill("#ffd700");
+  // ========== TOP DECORATIVE LINE ==========
+  doc.rect(40, 40, pageWidth - 80, 6).fill(config.primaryColor);
+  doc.rect(40, 52, pageWidth - 80, 1.5).fill(config.primaryColor);
 
-  // Bottom decorative border
-  doc.rect(40, pageHeight - 55, pageWidth - 80, 8)
-    .fill("#ffd700");
-  doc.rect(40, pageHeight - 48, pageWidth - 80, 2)
-    .fill("#ffd700");
+  // Bottom decorative line
+  doc.rect(40, pageHeight - 52, pageWidth - 80, 6).fill(config.primaryColor);
+  doc.rect(40, pageHeight - 46, pageWidth - 80, 1.5).fill(config.primaryColor);
 
   // ========== CORNER DECORATIONS ==========
-  const cornerSize = 60;
+  const cornerSize = 50;
+  doc.lineWidth(2).strokeColor(config.primaryColor);
   
-  // Top-left corner
-  doc.lineWidth(2)
-    .strokeColor("#ffd700")
-    .moveTo(35, 35)
-    .lineTo(35, 35 + cornerSize)
-    .stroke();
-  doc.moveTo(35, 35)
-    .lineTo(35 + cornerSize, 35)
-    .stroke();
+  // Top-left
+  doc.moveTo(30, 30).lineTo(30, 30 + cornerSize).stroke();
+  doc.moveTo(30, 30).lineTo(30 + cornerSize, 30).stroke();
   
-  // Top-right corner
-  doc.moveTo(pageWidth - 35, 35)
-    .lineTo(pageWidth - 35, 35 + cornerSize)
-    .stroke();
-  doc.moveTo(pageWidth - 35, 35)
-    .lineTo(pageWidth - 35 - cornerSize, 35)
-    .stroke();
+  // Top-right
+  doc.moveTo(pageWidth - 30, 30).lineTo(pageWidth - 30, 30 + cornerSize).stroke();
+  doc.moveTo(pageWidth - 30, 30).lineTo(pageWidth - 30 - cornerSize, 30).stroke();
   
-  // Bottom-left corner
-  doc.moveTo(35, pageHeight - 35)
-    .lineTo(35, pageHeight - 35 - cornerSize)
-    .stroke();
-  doc.moveTo(35, pageHeight - 35)
-    .lineTo(35 + cornerSize, pageHeight - 35)
-    .stroke();
+  // Bottom-left
+  doc.moveTo(30, pageHeight - 30).lineTo(30, pageHeight - 30 - cornerSize).stroke();
+  doc.moveTo(30, pageHeight - 30).lineTo(30 + cornerSize, pageHeight - 30).stroke();
   
-  // Bottom-right corner
-  doc.moveTo(pageWidth - 35, pageHeight - 35)
-    .lineTo(pageWidth - 35, pageHeight - 35 - cornerSize)
-    .stroke();
-  doc.moveTo(pageWidth - 35, pageHeight - 35)
-    .lineTo(pageWidth - 35 - cornerSize, pageHeight - 35)
-    .stroke();
+  // Bottom-right
+  doc.moveTo(pageWidth - 30, pageHeight - 30).lineTo(pageWidth - 30, pageHeight - 30 - cornerSize).stroke();
+  doc.moveTo(pageWidth - 30, pageHeight - 30).lineTo(pageWidth - 30 - cornerSize, pageHeight - 30).stroke();
 
-  // ========== LOGO (Left Side) ==========
-  // Try multiple possible logo paths
-  const logoPaths = [
-    path.join(__dirname, "../assets/logo.png"),
-    path.join(__dirname, "../assets/logo.jpg"),
-    path.join(__dirname, "../assets/logo.jpeg"),
-    path.join(__dirname, "../../assets/logo.png"),
-    path.join(__dirname, "../../public/logo.png"),
-    path.join(process.cwd(), "assets/logo.png"),
-    path.join(process.cwd(), "public/logo.png")
-  ];
-  
-  let logoLoaded = false;
-  
-  // Try to load logo from various paths
-  for (const logoPath of logoPaths) {
+  // ========== LOGO WITH HEIGHT CONTROL ==========
+  if (config.showLogo) {
+    const logoPath = "C:/Users/Akshyi/Documents/event/backend/assets/uit_logo.png";
+    
+    // Calculate logo dimensions with height control
+    let logoOptions = {
+      width: config.logoWidth
+    };
+    
+    // If specific height is provided, use it
+    if (config.logoHeight) {
+      logoOptions.height = config.logoHeight;
+    }
+    
+    // Calculate position with offsets
+    const logoX = (pageWidth - config.logoWidth) / 2 + config.logoXOffset;
+    const logoY = 45 + config.logoYOffset;
+    
     try {
       if (fs.existsSync(logoPath)) {
-        doc.image(logoPath, 36, 35, { width: 90, height: 90 });
-        logoLoaded = true;
-        console.log("Logo loaded from:", logoPath);
-        break;
+        doc.image(logoPath, logoX, logoY, logoOptions);
+        console.log("Logo loaded successfully with dimensions:", logoOptions);
+      } else {
+        console.log("Logo not found at:", logoPath);
       }
     } catch (err) {
-      // Continue to next path
+      console.log("Error loading logo:", err.message);
     }
   }
-  
-  // If no logo found, draw a decorative emblem instead
-  if (!logoLoaded) {
-    // Draw a beautiful emblem/crest as fallback
-    const emblemX = 50;
-    const emblemY = 35;
-    const emblemSize = 65;
-    
-    // Star in center
-    const centerX = emblemX + emblemSize/2;
-    const centerY = emblemY + emblemSize/2;
-    
-    for (let i = 0; i < 5; i++) {
-      const angle = (i * 72 - 90) * Math.PI / 180;
-      const x1 = centerX + Math.cos(angle) * 15;
-      const y1 = centerY + Math.sin(angle) * 15;
-      const x2 = centerX + Math.cos(angle + 36 * Math.PI / 180) * 8;
-      const y2 = centerY + Math.sin(angle + 36 * Math.PI / 180) * 8;
-      
-      doc.polygon([x1, y1, x2, y2])
-        .fill("#ffd700");
-    }
-  }
-
-  // ========== RIGHT SIDE DECORATION ==========
-  // Draw a decorative pattern on right side
-  for (let i = 0; i < 3; i++) {
-    doc.circle(pageWidth - 60, 60 + i * 80, 15)
-      .lineWidth(1)
-      .strokeColor("#ffd700")
-      .stroke();
-  }
-
-  // ========== INSTITUTION NAME ==========
-  doc.font("Helvetica-Bold")
-    .fontSize(22)
-    .fillColor("#ffd700")
-    .text("COLLEGE OF ENGINEERING", 0, 80, {
-      align: "center"
-    });
-
-  doc.fontSize(12)
-    .fillColor("#aaa")
-    .text("(Affiliated to Anna University)", 0, 108, {
-      align: "center"
-    });
 
   // ========== MAIN TITLE ==========
   doc.font("Helvetica-Bold")
-    .fontSize(48)
-    .fillColor("#ffffff")
-    .text("CERTIFICATE", 0, 160, {
-      align: "center"
-    });
+    .fontSize(42)
+    .fillColor(config.secondaryColor)
+    .text(config.mainTitle, 0, 190, { align: "center" });
 
   doc.fontSize(18)
-    .fillColor("#ffd700")
-    .text("OF PARTICIPATION", 0, 210, {
-      align: "center"
-    });
+    .fillColor(config.primaryColor)
+    .text(`OF ${config.certificateType}`, 0, 235, { align: "center" });
 
-  // ========== DECORATIVE LINE ==========
-  const lineWidth = 200;
-  doc.moveTo((pageWidth - lineWidth) / 2, 230)
-    .lineTo((pageWidth + lineWidth) / 2, 230)
-    .lineWidth(1)
-    .strokeColor("#ffd700")
+  // Decorative line under title
+  const lineWidth = 250;
+  doc.moveTo((pageWidth - lineWidth) / 2, 255)
+    .lineTo((pageWidth + lineWidth) / 2, 255)
+    .lineWidth(1.5)
+    .strokeColor(config.primaryColor)
     .stroke();
 
-  // ========== STUDENT NAME ==========
-  doc.font("Helvetica-Bold")
-    .fontSize(36)
-    .fillColor("#ffffff")
-    .text(student.name, 0, 260, {
-      align: "center"
-    });
-
-  // ========== DECORATIVE LINE UNDER NAME ==========
-  const nameWidth = doc.widthOfString(student.name);
-  doc.moveTo((pageWidth - nameWidth) / 2 - 20, 298)
-    .lineTo((pageWidth + nameWidth) / 2 + 20, 298)
-    .lineWidth(1)
-    .strokeColor("#ffd700")
-    .stroke();
-
-  // ========== CERTIFICATE TEXT ==========
-  doc.font("Helvetica")
-    .fontSize(14)
-    .fillColor("#ddd")
-    .text(
-      "This certificate is proudly presented to",
-      (pageWidth - 400) / 2,
-      320,
-      { width: 400, align: "center" }
-    );
-
-  doc.font("Helvetica-Bold")
-    .fontSize(16)
-    .fillColor("#ffd700")
-    .text(student.name, (pageWidth - 400) / 2, 345, {
-      width: 400,
-      align: "center"
-    });
-
-  doc.font("Helvetica")
-    .fontSize(14)
-    .fillColor("#ddd")
-    .text(
-      "for outstanding participation and contribution in",
-      (pageWidth - 450) / 2,
-      375,
-      { width: 450, align: "center" }
-    );
-
-  // ========== EVENT NAME HIGHLIGHT ==========
-  doc.font("Helvetica-Bold")
-    .fontSize(20)
-    .fillColor("#ffd700")
-    .text(student.event_name, 0, 405, {
-      align: "center"
-    });
-
-  // ========== ADDITIONAL INFO ==========
-  doc.font("Helvetica")
-    .fontSize(12)
-    .fillColor("#aaa")
-    .text(
-      "organized by the Department of Student Affairs",
-      0,
-      440,
-      { align: "center" }
-    );
-
-  // ========== DATES AND SIGNATURES ==========
-  const today = new Date();
-  const formattedDate = today.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  });
-
-  // Left side - Date
-  doc.font("Helvetica")
-    .fontSize(10)
-    .fillColor("#aaa")
-    .text("Date", 80, 500);
-  doc.font("Helvetica-Bold")
-    .fontSize(12)
-    .fillColor("#ffd700")
-    .text(formattedDate, 80, 515);
-
-  // Right side - Signature
-  doc.font("Helvetica")
-    .fontSize(10)
-    .fillColor("#aaa")
-    .text("Authorized Signature", pageWidth - 180, 500);
+  // ========== PARAGRAPH WITH LETTER SPACING CONTROL ==========
+  let currentY = 290;
   
-  // Signature line
-  doc.moveTo(pageWidth - 180, 535)
-    .lineTo(pageWidth - 80, 535)
-    .lineWidth(1)
-    .strokeColor("#ffd700")
-    .stroke();
+  // Helper function to format text with letter spacing
+  function formatTextWithSpacing(text, fontSize, letterSpacing) {
+    if (!letterSpacing || letterSpacing === 0) return text;
+    
+    // Add space between each character
+    return text.split('').join(' '.repeat(Math.abs(letterSpacing)));
+  }
   
-  doc.font("Helvetica")
-    .fontSize(10)
-    .fillColor("#aaa")
-    .text("Principal", pageWidth - 150, 540, { align: "center" });
+  // Function to create styled paragraph with different formatting
+  function createStyledParagraph(student, config) {
+    const parts = [];
+    
+    // Part 1: Opening text
+    parts.push({ text: "This certificate is proudly presented to ", isBold: false, color: config.textColor });
+    
+    // Part 2: Student name (bold)
+    parts.push({ text: student.name, isBold: true, color: config.secondaryColor });
+    
+    // Part 3: Middle text
+    parts.push({ text: " for outstanding performance and dedication in ", isBold: false, color: config.textColor });
+    
+    // Part 4: Event name (highlighted)
+    parts.push({ text: student.event_name, isBold: true, color: config.eventNameColor });
+    
+    // Part 5: Closing text
+    parts.push({ text: ` organized by ${student.organized_by || "Department of Computer Science"}.`, isBold: false, color: config.textColor });
+    
+    return parts;
+  }
+  
+  const paragraphParts = createStyledParagraph(student, config);
+  
+  // Set paragraph font settings
+  doc.fontSize(config.paragraphFontSize);
+  
+  // Apply letter spacing if needed
+  if (config.paragraphLetterSpacing !== 0) {
+    // Note: PDFKit doesn't directly support letter spacing
+    // Alternative: Use character spacing by adding spaces
+    doc.font("Helvetica");
+  }
+  
+  // Function to measure text width with letter spacing
+  function getTextWidth(text, isBold) {
+    if (isBold) {
+      doc.font("Helvetica-Bold");
+    } else {
+      doc.font("Helvetica");
+    }
+    const width = doc.widthOfString(text);
+    
+    // Add letter spacing width
+    if (config.paragraphLetterSpacing > 0) {
+      return width + (text.length * config.paragraphLetterSpacing);
+    }
+    return width;
+  }
+  
+  // Function to draw text with letter spacing
+  function drawTextWithSpacing(text, x, y, isBold, color) {
+    doc.fillColor(color);
+    
+    if (isBold) {
+      doc.font("Helvetica-Bold");
+    } else {
+      doc.font("Helvetica");
+    }
+    
+    if (config.paragraphLetterSpacing === 0) {
+      // Normal text without spacing
+      doc.text(text, x, y, { continued: true });
+    } else {
+      // Draw each character with spacing
+      let currentX = x;
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        const charWidth = doc.widthOfString(char);
+        doc.text(char, currentX, y, { continued: true, lineBreak: false });
+        currentX += charWidth + config.paragraphLetterSpacing;
+      }
+    }
+  }
+  
+  // Word wrap function with letter spacing consideration
+  function wrapTextWithSpacing(parts, maxWidth) {
+    const lines = [];
+    let currentLine = [];
+    let currentWidth = 0;
+    
+    for (const part of parts) {
+      const words = part.text.split(' ');
+      
+      for (let i = 0; i < words.length; i++) {
+        const word = words[i];
+        const wordWidth = getTextWidth(word + (i < words.length - 1 ? ' ' : ''), part.isBold);
+        
+        if (currentWidth + wordWidth <= maxWidth) {
+          currentLine.push({ ...part, text: word + (i < words.length - 1 ? ' ' : '') });
+          currentWidth += wordWidth;
+        } else {
+          if (currentLine.length > 0) {
+            lines.push(currentLine);
+            currentLine = [];
+            currentWidth = 0;
+          }
+          currentLine.push({ ...part, text: word + (i < words.length - 1 ? ' ' : '') });
+          currentWidth = wordWidth;
+        }
+      }
+    }
+    
+    if (currentLine.length > 0) {
+      lines.push(currentLine);
+    }
+    
+    return lines;
+  }
+  
+  const maxWidth = config.paragraphMaxWidth;
+  const lines = wrapTextWithSpacing(paragraphParts, maxWidth);
+  const paragraphX = (pageWidth - maxWidth) / 2;
+  
+  // Draw the paragraph with letter spacing
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    let currentX = paragraphX;
+    
+    // Calculate line width for alignment
+    let totalLineWidth = 0;
+    for (const part of line) {
+      totalLineWidth += getTextWidth(part.text, part.isBold);
+    }
+    
+    // Apply alignment
+    let startX = paragraphX;
+    if (config.paragraphAlign === "center") {
+      startX = paragraphX + (maxWidth - totalLineWidth) / 2;
+    } else if (config.paragraphAlign === "right") {
+      startX = paragraphX + (maxWidth - totalLineWidth);
+    }
+    
+    currentX = startX;
+    
+    // Draw each part of the line
+    for (const part of line) {
+      if (part.isBold) {
+        doc.font("Helvetica-Bold");
+      } else {
+        doc.font("Helvetica");
+      }
+      doc.fillColor(part.color);
+      
+      if (config.paragraphLetterSpacing === 0) {
+        doc.text(part.text, currentX, currentY + (i * config.paragraphLineHeight), { continued: true });
+        currentX += doc.widthOfString(part.text);
+      } else {
+        // Draw with letter spacing
+        for (let j = 0; j < part.text.length; j++) {
+          const char = part.text[j];
+          const charWidth = doc.widthOfString(char);
+          doc.text(char, currentX, currentY + (i * config.paragraphLineHeight), { continued: true, lineBreak: false });
+          currentX += charWidth + config.paragraphLetterSpacing;
+        }
+      }
+    }
+  }
+  
+  // Calculate Y position after paragraph
+  currentY = currentY + (lines.length * config.paragraphLineHeight) + 30;
 
-  // ========== CERTIFICATE ID ==========
-  const certId = `EVT-${student.event_id || '000'}-${student.student_id || '000'}`;
-  doc.font("Helvetica")
-    .fontSize(8)
-    .fillColor("#666")
-    .text(`Certificate ID: ${certId}`, pageWidth - 160, pageHeight - 30);
+  // ========== ADDITIONAL INFO (if provided) ==========
+  if (student.additional_info) {
+    doc.font("Helvetica")
+      .fontSize(12)
+      .fillColor(config.subTextColor)
+      .text(student.additional_info, 0, currentY, { align: "center" });
+    currentY += 30;
+  }
 
-  // ========== BOTTOM DECORATION ==========
+  // ========== DATES ==========
+  if (student.startDate && student.endDate) {
+    doc.font("Helvetica")
+      .fontSize(12)
+      .fillColor(config.subTextColor)
+      .text(`Duration: ${student.startDate} to ${student.endDate}`, 0, currentY, { align: "center" });
+    currentY += 30;
+  }
+
+  // ========== SIGNATURE SECTION ==========
+  const signY = 480;
+  
+  if (config.showSignature) {
+    // Signature line
+    doc.moveTo(550, signY)
+      .lineTo(750, signY)
+      .lineWidth(1)
+      .strokeColor(config.primaryColor)
+      .stroke();
+    
+    doc.font("Helvetica")
+      .fontSize(10)
+      .fillColor(config.subTextColor)
+      .text("Authorized Signatory", 620, signY + 8);
+    
+    doc.fontSize(9)
+      .fillColor(config.subTextColor)
+      .text("(Principal)", 640, signY + 22);
+  }
+
+  // ========== DATE ON LEFT SIDE ==========
+  if (config.showDate) {
+    const today = new Date();
+    const formattedDate = today.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+    
+    doc.font("Helvetica")
+      .fontSize(10)
+      .fillColor(config.subTextColor)
+      .text("Date", 80, signY);
+    
+    doc.font("Helvetica-Bold")
+      .fontSize(11)
+      .fillColor(config.secondaryColor)
+      .text(formattedDate, 80, signY + 15);
+  }
+
+  
+
+  // ========== BOTTOM TEXT ==========
   doc.font("Helvetica")
     .fontSize(7)
-    .fillColor("#555")
-    .text("This is a system generated certificate", pageWidth / 2 - 100, pageHeight - 25, {
-      align: "center"
-    });
+    .fillColor("#aaaaaa")
+    .text(config.footerText, pageWidth / 2 - 100, pageHeight - 25, { align: "center" });
 
   doc.end();
 }
 
-module.exports = generateCertificate;
+module.exports = generateCertificate; 
