@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 import { useNavigate } from "react-router-dom";
 import AdminNavbar from "../../components/AdminNavbar";
 import "./AdminRegistrations.css";
@@ -50,6 +52,58 @@ function AdminRegistrations() {
       alert("Error sending certificates ❌");
     }
   };
+
+const generateReport = async (eventId, eventName) => {
+  try {
+    const res = await axios.get(
+      `http://localhost:5000/api/admin/event-registrations/${eventId}`
+    );
+
+    const students = res.data.students || [];
+
+    if (students.length === 0) {
+      alert("No student registrations found ❌");
+      return;
+    }
+
+    const doc = new jsPDF();
+
+    doc.setFontSize(18);
+    doc.text(`${eventName} - Student Registration Report`, 14, 20);
+
+    const tableColumn = [
+      "S.No",
+      "Name",
+      "Email",
+      "Mobile",
+      "Department"
+    ];
+
+    const tableRows = [];
+
+    students.forEach((student, index) => {
+      tableRows.push([
+        index + 1,
+        student.name || "",
+        student.email || "",
+        student.mobile || "",
+        student.department || ""
+      ]);
+    });
+
+    autoTable(doc, {
+      head: [tableColumn],
+      body: tableRows,
+      startY: 30
+    });
+
+    doc.save(`${eventName}_Report.pdf`);
+
+  } catch (error) {
+    console.log("PDF ERROR:", error);
+    alert("Error generating report ❌");
+  }
+};
 
   useEffect(() => {
     fetchData();
@@ -149,6 +203,7 @@ function AdminRegistrations() {
                       <th>Action</th>
                       <th>Status</th>
                       <th>Certificate</th>
+                        <th>Report</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -236,6 +291,15 @@ function AdminRegistrations() {
                               </button>
                             )}
                           </td>
+                          <td>
+  <button
+    className="btn btn-danger btn-sm"
+    onClick={() => generateReport(event.id, event.name)}
+  >
+    <i className="bi bi-file-earmark-pdf-fill me-1"></i>
+    Report
+  </button>
+</td>
                         </tr>
                       ))
                     )}
